@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: mongo-backup
@@ -9,24 +9,30 @@ spec:
       template:
         spec:
           volumes:
-          - name: google-cloud-key
+          - name: gcp-bucket-sa
             secret:
               secretName: gcs-key
           containers:
           - name: mongo-backup
-            image: <IMAGE_URI>
+            image: k4mrul/gke-mongo-backup
             volumeMounts:
-            - name: google-cloud-key
+            - name: gcp-bucket-sa
               mountPath: /var/secrets/google
             env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /var/secrets/google/key.json
+              value: /var/secrets/google/gcp_service_account.json
             - name:  MONGO_HOST
-              value: <MONGO_URI>
+              value: <MONGO_HOST>
             - name:  MONGO_USERNAME
-              value: <MONGO_USERNAME>
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-standalone-secrets
+                  key: mongo-username
             - name:  MONGO_PASSWORD
-              value: <MONGO_PASSWORD>  
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-standalone-secrets
+                  key: mongo-password
             - name:  BUCKET_NAME
-              value: <BUCKET_NAME>
+              value: dokan-dev
           restartPolicy: OnFailure
