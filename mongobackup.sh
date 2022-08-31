@@ -30,8 +30,9 @@ gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
 BACKUP_FILENAME="$(get_file_date).tar.gz"
 
 # Create the backup
-echo "$(get_log_date) [Step 1/3] Running mongodump from $MONGO_URI to $BACKUP_PATH"
-mongodump --uri $MONGO_URI -o $BACKUP_PATH --quiet
+echo "$(get_log_date) [Step 1/3] Running mongodump"
+mongodump --host $MONGO_HOST --port 27017 --authenticationDatabase admin --username $MONGO_USERNAME --password $MONGO_PASSWORD -o $BACKUP_PATH --quiet
+
 
 # Compress
 echo "$(get_log_date) [Step 2/3] Creating tar file"

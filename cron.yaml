@@ -21,8 +21,12 @@ spec:
             env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
-            - name:  MONGO_URI
+            - name:  MONGO_HOST
               value: <MONGO_URI>
+            - name:  MONGO_USERNAME
+              value: <MONGO_USERNAME>
+            - name:  MONGO_PASSWORD
+              value: <MONGO_PASSWORD>  
             - name:  BUCKET_NAME
               value: <BUCKET_NAME>
           restartPolicy: OnFailure
