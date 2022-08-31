@@ -1,3 +1,6 @@
+# More info
+https://www.notion.so/Mongodb-backup-to-gcs-with-k8s-cron-703fe5df394e455c818832d7c48fe9eb
+
 # GKE mongo backup
 Scripts and config to backup mongodb to Google Cloud Storage in GKE
 
