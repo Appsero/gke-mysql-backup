@@ -7,8 +7,8 @@ get_file_date () {
 }
 
 # Validate needed ENV vars
-if [ -z "$MONGO_URI" ]; then
-    echo "$(get_log_date) MONGO_URI is unset or set to the empty string"
+if [ -z "$MONGO_HOST" ]; then
+    echo "$(get_log_date) MONGO_HOST is unset or set to the empty string"
     exit 1
 fi
 if [ -z "$BUCKET_NAME" ]; then
@@ -41,7 +41,7 @@ tar -czf $BACKUP_PATH$BACKUP_FILENAME $BACKUP_PATH*
 # Copy to Google Cloud Storage
 echo "$(get_log_date) [Step 3/3] Uploading archive to Google Cloud Storage"
 echo "Copying $BACKUP_PATH$BACKUP_FILENAME to gs://$BUCKET_NAME/$BACKUP_FILENAME"
-gsutil cp $BACKUP_PATH$BACKUP_FILENAME gs://$BUCKET_NAME/$BACKUP_FILENAME 2>&1
+gsutil cp $BACKUP_PATH$BACKUP_FILENAME gs://$BUCKET_NAME/$FOLDER_NAME/$BACKUP_FILENAME 2>&1
 
 # Clean
 echo "Removing backup data"
