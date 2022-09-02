@@ -1,9 +1,12 @@
+#####Sample
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: mongo-backup
 spec:
-  schedule: "0 3 * * *"
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
@@ -22,7 +25,7 @@ spec:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/gcp_service_account.json
             - name:  MONGO_HOST
-              value: <MONGO_HOST>
+              value: mongo-svc.default.svc.cluster.local
             - name:  MONGO_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -34,5 +37,7 @@ spec:
                   name: mongo-standalone-secrets
                   key: mongo-password
             - name:  BUCKET_NAME
-              value: dokan-dev
+              value: dokan-mongo-backup
+            - name:  FOLDER_NAME
+              value: dev
           restartPolicy: OnFailure
